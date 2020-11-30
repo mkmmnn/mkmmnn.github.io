@@ -15,8 +15,7 @@ I used the Genius API as the source of my lyrics. Using the API is straightforwa
 2. Songs with the string "(Remix)" are also skipped to avoid potential for redundancies. 
 3. Once all lyrics are appended to a .txt file, they are converted into all lowercase so the number of character options for the neural network to train on will be lower. 
 
-'''
-
+```python
     def makeLyricsText(artistName):
         title = artistName.replace(" ", "") + ".txt"
         file = open(title, "w")
@@ -43,16 +42,15 @@ I used the Genius API as the source of my lyrics. Using the API is straightforwa
         file.close()
         print(specificLyrics)
         return specificLyrics
-'''
+```
 
 These lyrics were then all read and formatted into "sentences" that would be randomly fed into the neural network during training. The first step was to enumerate all possible characters that existed within the lyric set, and create a mapping mechanism for characters to incidies and vice versa. 
 
-'''
-
+```python
     chars = sorted(list(set(lyrics)))
     char_indices = dict((c, i) for i, c in enumerate(chars))
     indices_char = dict((i, c) for i, c in enumerate(chars))
-'''
+```
 
 
 ## Process
