@@ -43,7 +43,6 @@ I used the Genius API as the source of my lyrics. Using the API is straightforwa
         file.close()
         print(specificLyrics)
         return specificLyrics
-    
 '''
 
 These lyrics were then all read and formatted into "sentences" that would be randomly fed into the neural network during training. The first step was to enumerate all possible characters that existed within the lyric set, and create a mapping mechanism for characters to incidies and vice versa. 
@@ -53,7 +52,6 @@ These lyrics were then all read and formatted into "sentences" that would be ran
     chars = sorted(list(set(lyrics)))
     char_indices = dict((c, i) for i, c in enumerate(chars))
     indices_char = dict((i, c) for i, c in enumerate(chars))
-
 '''
 
 
