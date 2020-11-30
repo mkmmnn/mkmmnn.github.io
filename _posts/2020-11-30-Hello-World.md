@@ -16,40 +16,44 @@ I used the Genius API as the source of my lyrics. Using the API is straightforwa
 3. Once all lyrics are appended to a .txt file, they are converted into all lowercase so the number of character options for the neural network to train on will be lower. 
 
 '''
-def makeLyricsText(artistName):
-    title = artistName.replace(" ", "") + ".txt"
-    file = open(title, "w")
-    genius = lg.Genius('EVEbdlvJhu4oRGFz56kQIrETSGLVaJDvHkwbNzsyu1ysjU0Jc8x0w641ZqdfXmc8', skip_non_songs=True, 
-                   excluded_terms=["(Remix)", "(Live)"], remove_section_headers=True)
-    artists = [artistName]
+
+    def makeLyricsText(artistName):
+        title = artistName.replace(" ", "") + ".txt"
+        file = open(title, "w")
+        genius = lg.Genius('EVEbdlvJhu4oRGFz56kQIrETSGLVaJDvHkwbNzsyu1ysjU0Jc8x0w641ZqdfXmc8', skip_non_songs=True, 
+                       excluded_terms=["(Remix)", "(Live)"], remove_section_headers=True)
+        artists = [artistName]
+        
+        def getLyrics(arr, k):
+            c = 0
+            for name in arr:
+                try:
+                    songs = (genius.search_artist(name, max_songs=k, sort='popularity')).songs
+                    s = [song.lyrics for song in songs]
+                    file.write("\n \n    \n \n".join(s))
+                    c += 1
+                    print(f"Songs grabbed:{len(s)}")
+                except:
+                    print(f"some exception at {name}: {c}")
+
+        getLyrics(artists, 20)
+        file = open(title, encoding = "UTF-8")
+        specificLyrics = file.read()
+        specificLyrics = specificLyrics.lower()
+        file.close()
+        print(specificLyrics)
+        return specificLyrics
     
-    def getLyrics(arr, k):
-        c = 0
-        for name in arr:
-            try:
-                songs = (genius.search_artist(name, max_songs=k, sort='popularity')).songs
-                s = [song.lyrics for song in songs]
-                file.write("\n \n    \n \n".join(s))
-                c += 1
-                print(f"Songs grabbed:{len(s)}")
-            except:
-                print(f"some exception at {name}: {c}")
-            
-    getLyrics(artists, 20)
-    file = open(title, encoding = "UTF-8")
-    specificLyrics = file.read()
-    specificLyrics = specificLyrics.lower()
-    file.close()
-    print(specificLyrics)
-    return specificLyrics
 '''
 
 These lyrics were then all read and formatted into "sentences" that would be randomly fed into the neural network during training. The first step was to enumerate all possible characters that existed within the lyric set, and create a mapping mechanism for characters to incidies and vice versa. 
 
 '''
-chars = sorted(list(set(lyrics)))
-char_indices = dict((c, i) for i, c in enumerate(chars))
-indices_char = dict((i, c) for i, c in enumerate(chars))
+
+    chars = sorted(list(set(lyrics)))
+    char_indices = dict((c, i) for i, c in enumerate(chars))
+    indices_char = dict((i, c) for i, c in enumerate(chars))
+
 '''
 
 
