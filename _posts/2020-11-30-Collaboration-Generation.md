@@ -300,4 +300,60 @@ def createModel(lyrics):
 ```
 There is a final method that is used to generate the lyrics called ```generateLyricLine(artist, model, lyrics)```. I was unable to reduce the parameterization due to lack of time to refactor code. This would be a future goal of this project. Here is the code used to generate a collaboration song between Taylor Swift and Bob Dylan:
 ```python
+def createSongCollab(artist1, artist2):
+    artist1fullLyrics = makeLyricsText(artist1)
+    artist2fullLyrics = makeLyricsText(artist2)
+    artist1model = createModel(artist1)
+    artist2model = createModel(artist2)
+    artist1line1 = generateLyricLine(artist2fullLyrics[0:40], artist1, artist1fullLyrics)
+    artist2line1 = generateLyricLine(artist1line1[-40:], artist2, artist2fullLyrics)
+    artist1line2 = generateLyricLine(artist2line1[-40:], artist1, artist1fullLyrics)
+    artist2line2 = generateLyricLine(artist1line2[-40:], artist2, artist2fullLyrics)
+    song = artist1line1 + artist2line1 + artist1line2 + artist2line2
+    return song
 
+print(createSongCollab("Taylor Swift", "Bob Dylan"))
+```
+Using this general framework, but a different specific seed, I was able to generate a "song" to envision what a collaboration would look like between these two artists: 
+
+>
+*and you'd came
+>
+i was true
+this i did call
+that i dod't like a fay
+and you'd crustime
+i think i'vers go downthi has d dich
+*to tell you'd call
+*i've seen that?
+*is it cool that's deain't that i to dell* my back "now you do the time the wind
+>
+you that they to draging and stand in the gut stripp
+in is not he leany peeps
+>
+they mublething to the pregiled to way
+they do rear
+>
+the watch that he was was sta*le, i'l inded you'd call*
+*anv reading to teent's a that?
+is it chill that you'll seevers
+the said "james
+severy
+tantire, lover*
+>
+*see this i mast's that to deaving to teat mest me do*
+*lough*
+>
+*be babyed
+*be'* my back "now you do the time the wind
+>
+you that they to draging and stand in the gut stripp
+in is not he leany peeps
+>
+they mublething to the pregiled to way
+they do rear
+>
+the watch that he was was sta
+>
+
+Italicized lyrics are from Taylor Swift's neural network, and regular text is from Bob Dylan. 
