@@ -374,7 +374,7 @@ Using this general framework, but a different specific seed, I was able to gener
 >
 >the watch that he was was sta
 
-Italicized lyrics are from Taylor Swift's neural network, and regular text is from Bob Dylan. It is somewhat difficult to distinguish between their lyrical styles in the above song, and there are numerous text errors (this is most likely because the network was not as robust as it could have been). 
+Bolded lyrics are from Taylor Swift's neural network, and regular text is from Bob Dylan. It is somewhat difficult to distinguish between their lyrical styles in the above song, and there are numerous text errors (this is most likely because the network was not as robust as it could have been). 
 
 ### Takeaways
 
