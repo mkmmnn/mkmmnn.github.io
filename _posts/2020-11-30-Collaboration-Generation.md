@@ -177,6 +177,127 @@ wal
 The takeaways from these examples are that training on a very diverse data set results in the LSTM focusing on repitition as a main general trait of lyrics.
 
 ### The *Most* Successful Attempt
-After trying the above two tactics for creating a lyric collaboration generator, I decided to attempt to use the best of both ideas I had previously tried. From the robust model, I liked how the model was trained exclusively on one artist, because I felt that it resulted in more reasonable results. From the second attempt at transfer learning, I decided to use a similar network architecture because it was able to train much faster. My plan here is to generate two different models for both inputted artists. Then, using these models, I would build a portion of a song, alternating which model was used to generate lyrics. Whichever model was used to generate lyrics would be generating lyrics based on the seed being from the alternate model. In this way, the output would be a combination of both artist's lyrical styles, and the overall "song" would be sculpted from both network's training efforts. 
+After trying the above two tactics for creating a lyric collaboration generator, I decided to attempt to use the best of both ideas I had previously tried. From the robust model, I liked how the model was trained exclusively on one artist, because I felt that it resulted in more reasonable results. From the second attempt at transfer learning, I decided to use a similar network architecture because it was able to train much faster. My plan here is to generate two different models for both inputted artists. Then, using these models, I would build a portion of a song, alternating which model was used to generate lyrics. Whichever model was used to generate lyrics would be generating lyrics based on the seed being from the alternate model. In this way, the output would be a combination of both artist's lyrical styles, and the overall "song" would be sculpted from both network's training efforts. The architecture that I used on the individual artists was the same as was used on the large data set from the transfer learning network. There was one LSTM with 128 nodes and a dense layer with softmax activation. The drawback to using a network that is not as intense as the first one is that we can expect more errors in the text production from this network. I was willing to compromise accuracy for the speed of generation so I could create more interesting collaborations between more artists. The loss from the final epoch of training was slightly better than it was for the large lyric data set, which demonstrates that it is beneficial to train a network on a single artist, because the artist's unique word choices. First, I trained a network with this architecture on Taylor Swift, and generated a loss of 0.8537. After that, I also trained a model with the same structure on Bob Dylan, and generated a loss of 1.0373. These are no where close to how accurate the network was with four LSTMs with double the number of nodes per layer. However, when generating lyrics, the number of errors in the text was not so low that it was fully meaningless. 
 
+#### Code Structure
+I created methods to:
+* Generate a .txt document of lyrics of the inputted artist name string
+* Format the data, create a model, and train a model on the data of the given artist
+* Generate a string of 400 characters using the model returned from the above method, and an inputted seed
+Then, with the power to generate lyrics from a given artist based on whatever given seed I would like, I was able to feed lyrics of one artist into the network of another, in order to generate a song that was a combination of the two. 
+
+Code to generate lyrics.
+```python
+def makeLyricsText(artistName):
+    title = artistName.replace(" ", "") + ".txt"
+    file = open(title, "w")
+    genius = lg.Genius('EVEbdlvJhu4oRGFz56kQIrETSGLVaJDvHkwbNzsyu1ysjU0Jc8x0w641ZqdfXmc8', skip_non_songs=True, 
+                   excluded_terms=["(Remix)", "(Live)"], remove_section_headers=True)
+    artists = [artistName]
+    
+    def getLyrics(arr, k):
+        c = 0
+        for name in arr:
+            try:
+                songs = (genius.search_artist(name, max_songs=k, sort='popularity')).songs
+                s = [song.lyrics for song in songs]
+                file.write("\n \n    \n \n".join(s))
+                c += 1
+                print(f"Songs grabbed:{len(s)}")
+            except:
+                print(f"some exception at {name}: {c}")
+            
+    getLyrics(artists, 20)
+    file = open(title, encoding = "UTF-8")
+    specificLyrics = file.read()
+    specificLyrics = specificLyrics.lower()
+    file.close()
+    print(specificLyrics)
+    return specificLyrics
+```
+Code to create the model from given lyrics
+```python
+def createModel(lyrics):
+    chars = sorted(list(set(lyrics)))
+    char_indices = dict((c, i) for i, c in enumerate(chars))
+    indices_char = dict((i, c) for i, c in enumerate(chars))
+
+    # finding num. of characters in text & number of unique characters
+    n_characters = len(lyrics)
+    n_vocabulary = len(chars)
+
+    print("Total characters in lyric set: " , n_characters)
+    print("Total vocabulary in lyric set: " , n_vocabulary)
+
+    seqlen = 40
+    step = seqlen
+    sentences = []
+    for i in range(0, len(lyrics) - seqlen - 1, step):
+        sentences.append(lyrics[i: i + seqlen + 1])
+    x = np.zeros((len(sentences), seqlen, len(chars)), dtype=np.bool)
+    y = np.zeros((len(sentences), seqlen, len(chars)), dtype=np.bool)
+    for i, sentence in enumerate(sentences):
+        for t, (char_in, char_out) in enumerate(zip(sentence[:-1], sentence[1:])):
+            x[i, t, char_indices[char_in]] = 1
+            y[i, t, char_indices[char_out]] = 1
+            
+    model = Sequential()
+    model.add(LSTM(128, input_shape=(seqlen, len(chars)), return_sequences=True))
+    model.add(Dense(len(chars), activation='softmax'))
+
+    model.compile(
+        loss = 'categorical_crossentropy',
+        optimizer=RMSprop(learning_rate=0.01), 
+        metrics=['categorical_crossentropy', 'accuracy'])
+
+    def sample(preds, temperature=1.0):
+        """Helper function to sample an index from a probability array."""
+        preds = np.asarray(preds).astype('float64')
+        preds = np.exp(np.log(preds) / temperature)  # softmax
+        preds = preds / np.sum(preds)                #
+        probas = np.random.multinomial(1, preds, 1)  # sample index
+        return np.argmax(probas)    
+
+    def on_epoch_end(epoch, _):
+        """Function invoked at end of each epoch. Prints generated text."""
+        print()
+        print('----- Generating text after Epoch: %d' % epoch)
+
+        start_index = random.randint(0, len(lyrics) - seqlen - 1)
+
+
+        for diversity in [0.2, 0.5, 1.0]:
+            print('----- diversity:', diversity)
+
+            generated = ''
+            sentence = lyrics[start_index: start_index + seqlen]
+            generated += sentence
+            print('----- Generating with seed: "' + sentence + '"')
+            sys.stdout.write(generated)
+
+            for i in range(400):
+                x_pred = np.zeros((1, seqlen, len(chars)))
+                for t, char in enumerate(sentence):
+                    x_pred[0, t, char_indices[char]] = 1.
+                preds = model.predict(x_pred, verbose=0)
+                next_index = sample(preds[0, -1], diversity)
+                next_char = indices_char[next_index]
+
+                sentence = sentence[1:] + next_char
+
+                sys.stdout.write(next_char)
+                sys.stdout.flush()
+            print()
+
+    print_callback = LambdaCallback(on_epoch_end=on_epoch_end)
+
+    model.fit(x, y,
+              batch_size=128,
+              epochs=50,
+              callbacks=[print_callback])
+    
+    return model
+```
+There is a final method that is used to generate the lyrics called ```generateLyricLine(artist, model, lyrics)```. I was unable to reduce the parameterization due to lack of time to refactor code. This would be a future goal of this project. Here is the code used to generate a collaboration song between Taylor Swift and Bob Dylan:
+```python
 
