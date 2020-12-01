@@ -61,12 +61,14 @@ Overall, I made three attempts at creating neural networks to generate lyrics. T
 ### So Many Layers!
 My initial naive approach of developing a lyric generation tool was to create a model that was very robust. The first model that I created was trained on lyrics from the top 100 U2 songs. There was no issue with the data, as it was plentiful. The issue was with the architecture of the neural network. In this first iteration of lyric generation, the model I created incorporated four LSTM layers, each with 256 nodes. On top of that, there was a culminating dense layer with the softmax activation. This model took approximately five to six hours to train only one artist's lyric data. It was trained for thirty epochs, each of which used 724 sentences. I was able to generate example lyrics for this individual artist and the text had few errors (words were complete and the style generally was agreeable with that of the artist). The loss calculated for the final epochs was very low, as can be seen in the table below. 
 
-```python
+```
+seed: 
 " here is no, yeah there is no end to love
 we come and go
 stolen days you don't give back
 stolen days  "
 
+generated:
 are just enough 
  
 i shouldn't be here 'cause i should be dead
@@ -113,3 +115,9 @@ i gotta get out from under my b
 | 30             | 0.0615       |
 
 I decided that this method was not practical for being able to generate lyrics from various artists, because of the time that it took to comupte. I did like how the network was very accurate with text generation and had few (if any) results, so I hoped I could hold on to the robust architecture with many LSTM layers with many nodes. 
+
+### Transfer Learning Idea
+After realizing that it might take too long to create a very robust neural network for each artist individually, I decided I would attempt a transfer learning model. Abstractly, transfer learning takes a large, generalized data set, and trains a model on that data set. Then, that base model can be further differentiate when trained on a smaller data set. 
+
+
+
