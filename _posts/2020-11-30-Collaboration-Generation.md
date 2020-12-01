@@ -378,3 +378,5 @@ Italicized lyrics are from Taylor Swift's neural network, and regular text is fr
 
 From this project, I learned a large amount about RNNs, Keras Library, LSTMs, Transfer Learning, and text generation. As far as future directions, I would hope to be able to figure out how to successfully implement transfer learning in order to decrease the time that the lyric generation takes while increasing the text's accuracy to the English language. I also would like to attempt running the code on artists with very distinct styles, to see how their models were able to correct for the confusing seed. I am glad with the amount of knowledge I have gained from this project. 
 
+### Note
+Please view files related to this project in my github: mkmmnn. Ideally, the link at the bottom of this page should bring you to my profile, and within the neuralnetworks directory resides the .ipynb files that I used to make progress on this assignment. 
