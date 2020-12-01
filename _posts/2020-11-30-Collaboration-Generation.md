@@ -15,6 +15,8 @@ I used the Genius API as the source of my lyrics. Using the API is straightforwa
 2. Songs with the string "(Remix)" are also skipped to avoid potential for redundancies. 
 3. Once all lyrics are appended to a .txt file, they are converted into all lowercase so the number of character options for the neural network to train on will be lower. 
 
+I am unable to link a specific data set, because I had to use the Genius API. However, anyone can apply for an account to use this, and then write a simple python script like the one below in order to get as much lyrical data as they want. 
+
 ```python
     def makeLyricsText(artistName):
         title = artistName.replace(" ", "") + ".txt"
