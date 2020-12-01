@@ -117,7 +117,66 @@ i gotta get out from under my b
 I decided that this method was not practical for being able to generate lyrics from various artists, because of the time that it took to comupte. I did like how the network was very accurate with text generation and had few (if any) results, so I hoped I could hold on to the robust architecture with many LSTM layers with many nodes. 
 
 ### Transfer Learning Idea
-After realizing that it might take too long to create a very robust neural network for each artist individually, I decided I would attempt a transfer learning model. Abstractly, transfer learning takes a large, generalized data set, and trains a model on that data set. Then, that base model can be further differentiate when trained on a smaller data set. 
+After realizing that it might take too long to create a very robust neural network for each artist individually, I decided I would attempt a transfer learning model. Abstractly, transfer learning takes a large, generalized data set, and trains a model on that data set. Then, that base model can be further differentiate when trained on a smaller data set. First, I manually selected artists that I knew were popular enough to have enough songs in Genius, and had the potential for lyrical style. The methodology for adding to this list involved scrolling through Genius' most searched artists. The final list was:
+```python
+artists = ["Bob Dylan", "Kanye West", "Taylor Swift", "Kendrick Lamar", "Ariana Grande", "Queen", "Migos", "Frank Ocean",
+          "U2", "Neil Young", "BROCKHAMPTON", "Talking Heads", "ABBA", "Billy Joel", "Jack Johnson", "Lorde", "Adele",
+          "Pitbull", "*NSYNC", "Vengaboys", "Michael Jackson"]
+```
+Then, the program iterated through the list and added five songs from each artist to the .txt file for the large training data set. A drawback of this method is that it is difficult to control for the length of different artists' songs. The final .txt may not have had an equal distribution of lyrics written by each artist. After pulling this data from Genius, the same pre-processing was completed. Before training a network with the same architecture as the previous example, I made some modifications. For this trial, I reduced the number of LSTM layers to one. I also decreased the number of nodes within each layer to 128. The thought process behind this was that it is not necessary for this base model to be strongly fit to the data, because I was just hoping to discover general weights that could be used on a more "overfit" model for each individual artist. 
 
+```python
+model = Sequential()
+model.add(LSTM(128, input_shape=(seqlen, len(chars)), return_sequences=True))
+model.add(Dense(len(chars), activation='softmax'))
+```
+
+The training was also modified to include varying diversities as well as less data per epoch, but more epochs. After training, the loss at the final epoch was 1.0702, which is no where close to what was achieved with a network with more LSTM layers and more nodes. This is what would be expected, especially with using much more diverse lyrical data set. After generating this base network, I focused on trying to import the weights generated here into an identical network, re-establishing a lyric data set with over twenty songs from the specific artist, and then retraining using the more specific data. Unfortunately, this process came with the large main obstacle of the input sizes not being compatible. Using the Keras library, I was unable to determine a successful methodology to properly implement transfer learning. Though I did not achieve the proper "collaboration generation" that I was hoping for, I was able to generate some interesting lyrics that were simply an amalgamation of the words used by twenty or more artists. Some interesting generations from the base network are below:
+```
+seed:
+"she will (timber)
+
+swing your partner 'r"
+
+generated:
+she will (timber)
+
+swing your partner 'round and they don't really care about us
+all i wanna say is that they don't really care about us
+all i wanna say is that they don't really care about us
+
+let me not turn me (your heep), all it (hey)
+give me everything tonight i had streets in the street
+i knew you night
+be the mind me (swerve)
+it is a weepin' and then all the time
+i want you to stay
+i was too clowin' man
+shoot (hoo side me all the
+```
+
+```
+seed:
+"nashin' of teeth (swerve)
+it is a weepin"
+
+generated: 
+nashin' of teeth (swerve)
+it is a weeping for
+it's gonna be me
+i'm looking for tonight
+
+i see the scan in ohere
+seess and at the cookies the same burning and the money called and tell me what i'm waitin' for
+she's a mond enting nothing
+
+i got it a walk it (walk it), walk it like i talk it (walk it), walk it like i talk it (let's go)
+walk it like i talk it (walk it), walk it like i talk it (talk it), walk it like i talk it (let's go)
+wal
+```
+The takeaways from these examples are that training on a very diverse data set results in the LSTM focusing on repitition as a main general trait of lyrics.
+
+### The *Most* Successful Attempt
+After trying the above two tactics for creating a lyric collaboration generator, I decided to attempt to use the best of both ideas I had previously tried. From the robust model, I liked how the model was trained exclusively on one artist, because I felt that it resulted in more reasonable results. From the second attempt at transfer learning, I decided to use a similar network architecture because it was able to train much faster. My plan here is to generate two different models for both inputted artists. Then, using these models, I would build a portion of a song, alternating which model was used to generate lyrics. Whichever model was used to generate lyrics would be generating lyrics based on the seed being from the alternate model. In this way, the output would be a combination of both artist's lyrical styles, and the overall "song" would be sculpted from both network's training efforts. 
 
 
