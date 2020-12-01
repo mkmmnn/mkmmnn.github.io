@@ -316,44 +316,65 @@ print(createSongCollab("Taylor Swift", "Bob Dylan"))
 ```
 Using this general framework, but a different specific seed, I was able to generate a "song" to envision what a collaboration would look like between these two artists: 
 
+>*and you'd came*
 >
-*and you'd came
+>*i was true*
 >
-i was true
-this i did call
-that i dod't like a fay
-and you'd crustime
-i think i'vers go downthi has d dich
-*to tell you'd call
-*i've seen that?
-*is it cool that's deain't that i to dell* my back "now you do the time the wind
+>*this i did call*
 >
-you that they to draging and stand in the gut stripp
-in is not he leany peeps
+>*that i dod't like a fay*
 >
-they mublething to the pregiled to way
-they do rear
+>*and you'd crustime*
 >
-the watch that he was was sta*le, i'l inded you'd call*
-*anv reading to teent's a that?
-is it chill that you'll seevers
-the said "james
-severy
-tantire, lover*
+>*i think i'vers go downthi has d dich*
 >
-*see this i mast's that to deaving to teat mest me do*
-*lough*
+>*to tell you'd call*
 >
-*be babyed
-*be'* my back "now you do the time the wind
+>*i've seen that?*
 >
-you that they to draging and stand in the gut stripp
-in is not he leany peeps
+>*is it cool that's deain't that i to dell* my back "now you do the time the wind
 >
-they mublething to the pregiled to way
-they do rear
+>you that they to draging and stand in the gut stripp
 >
-the watch that he was was sta
+>in is not he leany peeps
 >
+>they mublething to the pregiled to way
+>
+>they do rear
+>
+>the watch that he was was sta*le, i'l inded you'd call*
+>
+>*anv reading to teent's a that?*
+>
+>*is it chill that you'll seevers*
+>
+>*the said "james*
+>
+>*severy*
+>
+>*tantire, lover*
+>
+>*see this i mast's that to deaving to teat mest me do*
+>
+>*lough*
+>
+>*be babyed*
+>
+>*be'* my back "now you do the time the wind
+>
+>you that they to draging and stand in the gut stripp
+>
+>in is not he leany peeps
+>
+>they mublething to the pregiled to way
+>
+>they do rear
+>
+>the watch that he was was sta
 
-Italicized lyrics are from Taylor Swift's neural network, and regular text is from Bob Dylan. 
+Italicized lyrics are from Taylor Swift's neural network, and regular text is from Bob Dylan. It is somewhat difficult to distinguish between their lyrical styles in the above song, and there are numerous text errors (this is most likely because the network was not as robust as it could have been). 
+
+
+I also was able to train another network on the musical group, Migos, and was subsequently able to see what a collaboration between Migos and Bob Dylan could look like. These two artists most likely would have very different vocabularies, or at least much more distinct than that of Bob Dylan and Taylor Swift. Below is the resulting generation:
+
+
