@@ -374,7 +374,7 @@ Using this general framework, but a different specific seed, I was able to gener
 
 Italicized lyrics are from Taylor Swift's neural network, and regular text is from Bob Dylan. It is somewhat difficult to distinguish between their lyrical styles in the above song, and there are numerous text errors (this is most likely because the network was not as robust as it could have been). 
 
+### Takeaways
 
-I also was able to train another network on the musical group, Migos, and was subsequently able to see what a collaboration between Migos and Bob Dylan could look like. These two artists most likely would have very different vocabularies, or at least much more distinct than that of Bob Dylan and Taylor Swift. Below is the resulting generation:
-
+From this project, I learned a large amount about RNNs, Keras Library, LSTMs, Transfer Learning, and text generation. As far as future directions, I would hope to be able to figure out how to successfully implement transfer learning in order to decrease the time that the lyric generation takes while increasing the text's accuracy to the English language. I also would like to attempt running the code on artists with very distinct styles, to see how their models were able to correct for the confusing seed. I am glad with the amount of knowledge I have gained from this project. 
 
