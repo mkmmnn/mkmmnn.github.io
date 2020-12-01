@@ -316,23 +316,23 @@ print(createSongCollab("Taylor Swift", "Bob Dylan"))
 ```
 Using this general framework, but a different specific seed, I was able to generate a "song" to envision what a collaboration would look like between these two artists: 
 
->*and you'd came*
+> **and you'd came**
 >
->*i was true*
+> **i was true** 
 >
->*this i did call*
+> **this i did call** 
 >
->*that i dod't like a fay*
+> **that i dod't like a fay** 
 >
->*and you'd crustime*
+> **and you'd crustime** 
 >
->*i think i'vers go downthi has d dich*
+> **i think i'vers go downthi has d dich**
 >
->*to tell you'd call*
+> **to tell you'd call**
 >
->*i've seen that?*
+> **i've seen that?**
 >
->*is it cool that's deain't that i to dell* my back "now you do the time the wind
+> **is it cool that's deain't that i to dell** my back "now you do the time the wind
 >
 >you that they to draging and stand in the gut stripp
 >
@@ -342,25 +342,25 @@ Using this general framework, but a different specific seed, I was able to gener
 >
 >they do rear
 >
->the watch that he was was sta*le, i'l inded you'd call*
+>the watch that he was was sta**le, i'l inded you'd call**
 >
->*anv reading to teent's a that?*
+> **anv reading to teent's a that?**
 >
->*is it chill that you'll seevers*
+> **is it chill that you'll seevers**
 >
->*the said "james*
+> **the said "james**
 >
->*severy*
+> **severy**
 >
->*tantire, lover*
+> **tantire, lover**
 >
->*see this i mast's that to deaving to teat mest me do*
+> **see this i mast's that to deaving to teat mest me do**
 >
->*lough*
+> **lough**
 >
->*be babyed*
+> **be babyed**
 >
->*be'* my back "now you do the time the wind
+> **be'** my back "now you do the time the wind
 >
 >you that they to draging and stand in the gut stripp
 >
